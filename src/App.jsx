@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { getAuthUrl } from './spotifyAuth';
-import Playlists from './components/Playlist/Playlist';
-import Discovery from './components/Discovery/Discovery';
-import RecentlyPlayed from './components/Recently Played/RecentlyPlayed';
-import Statistics from './components/Stats/Stats';
+import React, { useState, useEffect } from "react";
+import { getAuthUrl } from "./spotifyAuth";
+import Playlists from "./components/Playlist/Playlist";
+import Discovery from "./components/Discovery/Discovery";
+import RecentlyPlayed from "./components/Recently Played/RecentlyPlayed";
+import Statistics from "./components/Stats/Stats";
 
 export default function App() {
   const [token, setToken] = useState(null);
-  const [activeTab, setActiveTab] = useState('playlists');
+  const [activeTab, setActiveTab] = useState("playlists");
   const [error, setError] = useState(null);
 
   // Verifica si hay un token en el hash de la URL
   useEffect(() => {
     const hash = window.location.hash;
-    const storedToken = localStorage.getItem('spotifyAccessToken');
+    const storedToken = localStorage.getItem("spotifyAccessToken");
 
     // Si ya tenemos un token en localStorage, lo usamos directamente
     if (storedToken) {
@@ -23,21 +23,24 @@ export default function App() {
 
     // Si encontramos el token en la URL, lo guardamos en localStorage
     if (hash) {
-      const token = new URLSearchParams(hash.replace('#', '?')).get('access_token');
+      const token = new URLSearchParams(hash.replace("#", "?")).get(
+        "access_token"
+      );
       if (token) {
-        localStorage.setItem('spotifyAccessToken', token);
+        localStorage.setItem("spotifyAccessToken", token);
         setToken(token);
+        window.location.hash = "";
       } else {
-        setError('Error: Token de acceso no encontrado');
+        setError("Error: Token de acceso no encontrado");
       }
     }
   }, []);
 
   // Función para cerrar sesión
   const handleLogout = () => {
-    localStorage.removeItem('spotifyAccessToken');
+    localStorage.removeItem("spotifyAccessToken");
     setToken(null);
-    window.location.hash = ''; // Limpia el hash de la URL
+    window.location.hash = ""; // Limpia el hash de la URL
   };
 
   // Si hay un error, mostramos un mensaje
@@ -53,7 +56,10 @@ export default function App() {
   if (!token) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
-        <a href={getAuthUrl()} className="px-6 py-3 text-white bg-green-500 rounded-full hover:bg-green-600 transition-colors">
+        <a
+          href={getAuthUrl()}
+          className="px-6 py-3 text-white bg-green-500 rounded-full hover:bg-green-600 transition-colors"
+        >
           Iniciar sesión con Spotify
         </a>
       </div>
@@ -67,32 +73,44 @@ export default function App() {
         <ul className="flex space-x-4">
           <li>
             <button
-              onClick={() => setActiveTab('playlists')}
-              className={`px-4 py-2 rounded ${activeTab === 'playlists' ? 'bg-green-500' : 'hover:bg-gray-700'}`}
+              onClick={() => setActiveTab("playlists")}
+              className={`px-4 py-2 rounded ${
+                activeTab === "playlists" ? "bg-green-500" : "hover:bg-gray-700"
+              }`}
             >
               Playlists
             </button>
           </li>
           <li>
             <button
-              onClick={() => setActiveTab('discovery')}
-              className={`px-4 py-2 rounded ${activeTab === 'discovery' ? 'bg-green-500' : 'hover:bg-gray-700'}`}
+              onClick={() => setActiveTab("discovery")}
+              className={`px-4 py-2 rounded ${
+                activeTab === "discovery" ? "bg-green-500" : "hover:bg-gray-700"
+              }`}
             >
               Discovery
             </button>
           </li>
           <li>
             <button
-              onClick={() => setActiveTab('recentlyplayed')}
-              className={`px-4 py-2 rounded ${activeTab === 'recentlyplayed' ? 'bg-green-500' : 'hover:bg-gray-700'}`}
+              onClick={() => setActiveTab("recentlyplayed")}
+              className={`px-4 py-2 rounded ${
+                activeTab === "recentlyplayed"
+                  ? "bg-green-500"
+                  : "hover:bg-gray-700"
+              }`}
             >
               Recently Played
             </button>
           </li>
           <li>
             <button
-              onClick={() => setActiveTab('statistics')}
-              className={`px-4 py-2 rounded ${activeTab === 'statistics' ? 'bg-green-500' : 'hover:bg-gray-700'}`}
+              onClick={() => setActiveTab("statistics")}
+              className={`px-4 py-2 rounded ${
+                activeTab === "statistics"
+                  ? "bg-green-500"
+                  : "hover:bg-gray-700"
+              }`}
             >
               Stats
             </button>
@@ -106,10 +124,10 @@ export default function App() {
         </button>
       </nav>
       <main className="container mx-auto mt-8 p-4">
-        {activeTab === 'playlists' && <Playlists token={token} />}
-        {activeTab === 'discovery' && <Discovery token={token} />}
-        {activeTab === 'recentlyplayed' && <RecentlyPlayed token={token} />}
-        {activeTab === 'statistics' && <Statistics token={token} />}
+        {activeTab === "playlists" && <Playlists token={token} />}
+        {activeTab === "discovery" && <Discovery token={token} />}
+        {activeTab === "recentlyplayed" && <RecentlyPlayed token={token} />}
+        {activeTab === "statistics" && <Statistics token={token} />}
       </main>
     </div>
   );
