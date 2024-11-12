@@ -1,0 +1,8 @@
+[build]
+  functions = "netlify/functions"  # Ruta donde se encuentran las funciones de Netlify
+
+[[redirects]]
+  from = "/callback"  # Redirige la ruta '/callback'
+  to = "/.netlify/functions/callback"  # Esto redirige a la función sin servidor
+  status = 200
+  force = true
