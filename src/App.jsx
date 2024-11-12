@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAuthUrl, fetchFromSpotify } from './spotifyAuth';
+import { getAuthUrl } from './spotifyAuth';
 import Playlists from './components/Playlist/Playlist';
 import Discovery from './components/Discovery/Discovery';
 import RecentlyPlayed from './components/Recently Played/RecentlyPlayed';

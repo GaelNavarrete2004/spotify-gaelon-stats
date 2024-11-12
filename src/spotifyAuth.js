@@ -1,7 +1,7 @@
 // spotifyAuth.js
 
 const CLIENT_ID = "79f742e2bb194cc2b9756caebc221c22";
-const REDIRECT_URI = "http://localhost:3000/callback";
+const REDIRECT_URI = "https://spontaneous-kangaroo-b81304.netlify.app/callback";
 const SCOPES = [
   "user-read-private",
   "user-read-recently-played",

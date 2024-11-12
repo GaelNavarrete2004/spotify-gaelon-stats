@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchFromSpotify } from "../../spotifyAuth";
 import HistoricalRankingModal from "../Ranking/Ranking";
-import { Line } from "react-chartjs-2";
 
 export default function Statistics({ token }) {
   const [topTracks, setTopTracks] = useState([]);
