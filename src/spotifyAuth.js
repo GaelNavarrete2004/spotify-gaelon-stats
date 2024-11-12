@@ -14,25 +14,16 @@ const SCOPES = [
   "user-library-modify",
 ];
 
-/**
- * Generates the Spotify authentication URL for the Implicit Grant flow.
- * Redirects the user to Spotify's authorization page.
- */
 export const getAuthUrl = () => {
   return (
     "https://accounts.spotify.com/authorize?" +
     `client_id=${CLIENT_ID}&` +
-    `response_type=token&` + // Use 'token' to get access token directly
+    `response_type=code&` + // Cambiado de 'token' a 'code'
     `redirect_uri=${encodeURIComponent(REDIRECT_URI)}&` +
     `scope=${encodeURIComponent(SCOPES.join(" "))}`
   );
 };
 
-/**
- * Fetches data from the Spotify API using the access token stored in localStorage.
- * @param {string} endpoint - The endpoint to fetch from (e.g., "/me").
- * @returns {Promise<Object>} The response data from Spotify API.
- */
 export const fetchFromSpotify = async (endpoint) => {
   const token = localStorage.getItem("spotifyAccessToken");
 
@@ -51,4 +42,20 @@ export const fetchFromSpotify = async (endpoint) => {
   }
 
   return response.json();
+};
+
+// Esta función puede manejar el intercambio del código por el token de acceso.
+export const getAccessTokenFromCode = async (code) => {
+  try {
+    const response = await fetch(`/.netlify/functions/spotifyAuth?code=${code}`);
+    const data = await response.json();
+
+    if (data.access_token) {
+      localStorage.setItem("spotifyAccessToken", data.access_token);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error getting access token", error);
+  }
 };
